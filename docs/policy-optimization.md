@@ -2,7 +2,7 @@
 
 ## Policy Gradient methods
 
-They are a type of [RL](https://github.com/elsheikh21/pacman-game/blob/master/docs/RL_Intro.md) techniques that rely upon **optimizing parametrized policies** w.r.t the long-term cumulative reward (expected return) by gradient descent.
+[Policy Gradient methods](policy-gradient-methods.md) are a type of [RL](https://github.com/elsheikh21/pacman-game/blob/master/docs/RL_Intro.md) techniques that rely upon **optimizing parametrized policies** w.r.t the long-term cumulative reward (expected return) by gradient descent.
 
 Why?
 
