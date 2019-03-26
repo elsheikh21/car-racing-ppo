@@ -74,9 +74,9 @@ But what is `Replay Buffer`?
 
 General policy optimization methods usually start with defining the policy gradient laws as the expectation over the log of policy actions multiplied by the estimate of advantage function.
 
-![Policy Gradient estimator](policy-gradient-estimator.png)
+![Policy Gradient estimator](image/policy-gradient-estimator.png)
 
-![Policy Gradient Law](policy-gradient-law.png)
+![Policy Gradient Law](image/policy-gradient-law.png)
 
 - __ĝ:__ Estimator.
 - __L<sup>PG</sup>(θ):__ Policy Gradient Law.
@@ -126,6 +126,6 @@ General policy optimization methods usually start with defining the policy gradi
   - each of `N` (parallel) actors collect `T` timesteps of data
 - Then use constant surrogate loss of these `NT` timesteps of data & optimize it with minibatches using `SGD` (or usually better performance using Adam) for `k` epochs.
 
-![PPO Actor Critic Style Algorithm](ppo-actor-critic-style.png)
+![PPO Actor Critic Style Algorithm](image/ppo-actor-critic-style.png)
 
 - Here we know all the rewards so there is no guessing involved in computing the discounted sum of rewards; as we actually know what happened.

@@ -32,6 +32,6 @@
 
 ## End Result
 
-- After training for 280,000 episodes on GPU
+- After training for 280,000 episodes (equivalent to +36 hours) on GPU - NIVIDIA GeForce GTX 950M -
 
-![GIF for agent after training for 36+ hours](docs/carracing-ppo.gif)
+![GIF for agent after training for 36+ hours](docs/image/carracing-ppo.gif)

@@ -88,6 +88,7 @@ and one more take-home-lesson, this is our neural net that encodes the distribut
 
 Derivation from **Importance Sampling**
 
+- But why? simply, because we don't want our policy updates to be big which might lead to catastrophic performance of our beloved agent.
 - It is computing an expectation under some distribution namely when we use `π`<sub>`θ`</sub>, we want to know what the expectation is but our samples, trajectories comes from the old policy `π`<sub>`θ`<sub>`old`</sub></sub>.
 - Sample from `π`<sub>`θ`<sub>`old`</sub></sub>, results in trajectories which will be used to compute an expectation but we care about the new `θ`, thus we need a correction factor
 

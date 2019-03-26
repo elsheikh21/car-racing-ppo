@@ -35,6 +35,3 @@ All methods that follow this general schema are called
 value function.
 
 Methods that learn approximations for `policy & value functions` are known as `Actor-Critic methods`, where `actor` is a reference to the learned policy and `critic` is a reference to the learned value function.
-
-## Policy Approximations and its advantages
-
