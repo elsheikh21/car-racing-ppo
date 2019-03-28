@@ -46,7 +46,7 @@ To optimize policies, we need to alternate between sampling data from policy, an
 
 ## PPO Goal
 
-Is to perform comparably or better than state-of-the-art (SOTA) approaches __WHILE__ being much simpler to implement.
+Is to perform comparably or better than state-of-the-art (SOTA) approaches **WHILE** being much simpler to implement.
 
 ### Main goals
 
@@ -78,45 +78,47 @@ General policy optimization methods usually start with defining the policy gradi
 
 ![Policy Gradient Law](image/policy-gradient-law.png)
 
-- __ĝ:__ Estimator.
-- __L<sup>PG</sup>(θ):__ Policy Gradient Law.
-- __Ê<sub>t</sub>:__ expected value.
-- __π<sub>θ</sub>:__ is the policy: neural network takes the observed states from the environment as an input & suggests actions to take as an output.
-- __π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>):__ policy actions.
-- __∇<sub>θ</sub>:__ gradient of log of policy actions w.r.t θ
-- __Â<sub>t</sub>:__ estimate of what the relative value of the selected action in the current state, estimate of the advantage function.
+- The idea here is to push our agent to take actions leading to higher rewards and avoid bad actions
 
-### To calculate __Â<sub>t</sub>:__
+- **ĝ:** Estimator.
+- **L<sup>PG</sup>(θ):** Policy Gradient Law.
+- **Ê<sub>t</sub>:** expected value.
+- **π<sub>θ</sub>:** is the policy: neural network takes the observed states from the environment as an input & suggests actions to take as an output.
+- **π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>):** policy actions.
+- **∇<sub>θ</sub>:** gradient of log of policy actions w.r.t θ
+- **Â<sub>t</sub>:** estimate of what the relative value of the selected action in the current state, estimate of the advantage function.
+
+### To calculate **Â<sub>t</sub>:**
 
 1. Discounted Sum of Rewards
    - [Return = <sub>k=0</sub>Σ<sup>∞</sup> γ<sup>k</sup> r <sub>t</sub> + k.]
    - Rewards the agent got so far
 2. Baseline Estimate
-    - AKA `Value Function`
-    - Observed env state: `s` >> Value function of neural network >> `V(S)` = estimate of discounted return from now and onwards.
-      - Basically, trying to guess what the final return is going to be in this episode starting from current state.
-      - And, during, training this neural network is going to be frequency updated using the experience that is collected by agent from env; because, this is basically supervised learning.
-        - Supervised learning: the state is the input and try to predict the estimate of the return as the output.
-        - Hence this is a neural network, thus, the output will be noisy.
+   - AKA `Value Function`
+   - Observed env state: `s` >> Value function of neural network >> `V(S)` = estimate of discounted return from now and onwards.
+     - Basically, trying to guess what the final return is going to be in this episode starting from current state.
+     - And, during, training this neural network is going to be frequency updated using the experience that is collected by agent from env; because, this is basically supervised learning.
+       - Supervised learning: the state is the input and try to predict the estimate of the return as the output.
+       - Hence this is a neural network, thus, the output will be noisy.
 
->__Â<sub>t</sub> = Return - Baseline Estimate__
+> **Â<sub>t</sub> = Return - Baseline Estimate**
 >
->Return is computed (We know what happened) and baseline estimate is estimated using neural net (what did we expect would happen?)
+> Return is computed (We know what happened) and baseline estimate is estimated using neural net (what did we expect would happen?)
 
-- The __Â<sub>t</sub>__ advantage estimate answers the following questions
+- The **Â<sub>t</sub>** advantage estimate answers the following questions
 
   1. Was the action performed better than expected or worse
   2. How much better was the action that I took based on the expectation of what would normally happen in the state that I was in.
 
 - So,
-  
-  log(π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>)) * Â<sub>t</sub> = get final optimization objective that is used in policy gradient
+
+  log(π<sub>θ</sub>(a<sub>t</sub>|s<sub>t</sub>)) \* Â<sub>t</sub> = get final optimization objective that is used in policy gradient
 
 - if (Â<sub>t</sub> > 0):
 
   - Better than the average return
   - we will increase the probability of selecting them again in the future when we encounter the same state again and vice versa.
-  
+
 ---
 
 ### PPO Actor Critic Style

@@ -10,6 +10,9 @@
 ## Introduction
 
 - We are working on policy updating for best rewards same as TRPO but without conjugate gradient
+- As well as, its main idea is to avoid having too large policy updates.
+  - How? By using a ratio that tells us the difference between our new and old policy update, added to, clipping this ratio
+- It also introduces the training agent by running `K` epochs of gradient descent over sampling mini-batches
 - it has 2 forms:
 
   - KL Penalty version
@@ -19,9 +22,14 @@
   - Clipping objective function version
 
     - it is formed from two parts, the Importance sampling surrogate loss function
+
       ![Importance sampling loss function](image/importance-sampling-loss-fn.png)
+
     - and lower bound theory used in TRPO, forming lower -pessimistic- bound which can be optimized by SGD
+
       ![Clipped version to form lower bound](image/clipping-ppo.png)
+
+      - this is basically a constrained policy update in a small range using what is called a clipping function
 
     - PPO Algorithm
 
