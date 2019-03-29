@@ -85,11 +85,58 @@
         
         ![PPO clipping theorem visuallized](image/ppo-policy-update.png)
         
-        - on the left hand diagram, the action is less likely than the policy, after `1 - ε` we would undo the last update
-        - on the right hand diagram, updating will stop at  `1 + ε` or else policy might get worse
+        - on the right hand diagram, the action is less likely than the policy, after `1 - ε` we would undo the last update
+        - on the left hand diagram, updating will stop at  `1 + ε` or else policy might get worse
         - quick reminder: since A_hat is noisy estimate so we do not want to destroy our policy based on a single estimate; hence, we use clipping
 - PPO does not calculate all constraints or KL divergence hence it outperforms more complicated variants
    - Two alternating threads in PPO
        1. One current policy interacting with the environment generating episodes sequences for which we immediately calculate the advantage function using our fitted baseline estimate for state values
        2. Going to collect all the experiences and run gradient descent on policy network using the clipped PPO objective.
-    - These 2 threads can be decoupled from each other using 1000s workers <remote> that interact with the environment using recent copy of the policy network and GPU cluster that runs gradient descent on network weights using collected experiencee.
+    - These 2 threads can be decoupled from each other using 1000s workers <remote> that interact with the environment using recent copy of the policy network and GPU cluster that runs gradient descent on network weights using collected experience.
+
+---
+
+## PPO Main Ideas
+
+1. Clipped surrogate objective function
+  - improve training stability by limiting change we make to the policy at each step
+2. Multiple epochs for policy updating
+  - Allows us to run multiple epochs of gradient ascent on our samples without causing destructively large policy updates
+  - squeezes more data and reduce sample inefficiency
+- PPo runs policy using `N` parallel actors each collecting data and then sample it mini batches to train for `K` epochs using clipped surrogate objective
+    - `K` ranges between 3 - 15
+    - `M` ranges between 64 - 4096
+    - `T` (horizon) ranges between 128 - 2048
+
+- Policy gradient methods do not make efficient use of data from old policy while avoiding challenges posed by importance sampling
+- PG methods update rules should not change policy more than it was meant to >> Bounds
+- Policy gradient methods are great for continuous and large space but they suffer from
+    1. High variance >> Solution is to use actor critic models
+    2. Delayed problems
+    3. sample inefficiency
+    4. learning rate highly affects training >> TRPO
+        - TRPO adds constraint to our optimization problem to make sure updates are within the trust region
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
