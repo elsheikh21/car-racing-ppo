@@ -30,7 +30,7 @@
 
     ![Policy gradient law](image/policy-gradient-law.png)
 
-    - policy π<sub>θ<sub>: it is a neural network takes the observed states from the environment as input and suggest actions to take as output.
+    - policy π<sub>θ</sub>: it is a neural network takes the observed states from the environment as input and suggest actions to take as output.
     - A_hat: estimate of what the relative value of the selected action in the current state, to be calculated when need
         - discounted sum of rewards
             - We know all the rewards so there is no guessing involved in computing discounted sum of rewards (AKA return), we actually know what happened  
@@ -81,6 +81,7 @@
         - `a` is ratio of policy * advantage estimate: default objective for normal policy gradient which pushes policy towards actions that yield a high positive advantage fn over the baseline estimate 
         - `b` is the clipping of ratio for `1 + ε` and `1 - ε` -ε ∈ {0.1, 0.2, 0.3}-
         - the min allows us to undo a policy update if it was bad
+        
         ![PPO clipping theorem visuallized](image/ppo-policy-update.png)
             - on the left hand diagram, the action is less likely than the policy, after `1 - ε` we would undo the last update
             - on the right hand diagram, updating will stop at  `1 + ε` or else policy might get worse
