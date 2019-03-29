@@ -76,6 +76,7 @@
 - loss function in PPO 
 
     ![loss function in ppo](image/clipping-ppo.png)
+    
     - We use an expectation operator, as we update over batches of trajectory
     - `min(a, b)`, where
         - `a` is ratio of policy * advantage estimate: default objective for normal policy gradient which pushes policy towards actions that yield a high positive advantage fn over the baseline estimate 
@@ -83,9 +84,10 @@
         - the min allows us to undo a policy update if it was bad
         
         ![PPO clipping theorem visuallized](image/ppo-policy-update.png)
-            - on the left hand diagram, the action is less likely than the policy, after `1 - ε` we would undo the last update
-            - on the right hand diagram, updating will stop at  `1 + ε` or else policy might get worse
-            - quick reminder: since A_hat is noisy estimate so we do not want to destroy our policy based on a single estimate; hence, we use clipping
+        
+        - on the left hand diagram, the action is less likely than the policy, after `1 - ε` we would undo the last update
+        - on the right hand diagram, updating will stop at  `1 + ε` or else policy might get worse
+        - quick reminder: since A_hat is noisy estimate so we do not want to destroy our policy based on a single estimate; hence, we use clipping
 - PPO does not calculate all constraints or KL divergence hence it outperforms more complicated variants
    - Two alternating threads in PPO
        1. One current policy interacting with the environment generating episodes sequences for which we immediately calculate the advantage function using our fitted baseline estimate for state values
