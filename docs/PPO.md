@@ -7,12 +7,15 @@
 ---
 
 ### Why ppo
-1. Benefits of TRPO, but simpler. more general, better complexity
-2. Outperform other online policy gradient methods & overall strikes as a favorable balance between sample complexity and simplicity and wall time
+1. Benefits of TRPO, but simpler. more general, better complexity. It adds the constraint directly into our optimization problem.
+2. Instead of solving TRPO using Conjugate gradient we can use stochastic gradient descent
+3. Outperform other online policy gradient methods & overall strikes as a favorable balance between sample complexity and simplicity and wall time
     - Online policy: Agent can pick actions
     - Most obvious setup --- Learn with exploration but play without exploration
     - Agent follows his own policy --- Learn from either an expert -imperfect- or from recorded sessions -recorded data-
     - Agent creates its own data by interacting with the environment --- Leading to instability in the distribution of the observations & rewards
+4. Since it is a policy based method, it does not find or approximate value function, but, it tries to find/optimize directly the policy
+
 
 ---
 
@@ -61,7 +64,13 @@
     - 0 < r(t) < 1: action is less likely now then it was before the last gradient step
     - r(t) > 1: action is more likely now that it was in the old version of the policy
 
+---
 
+### PPO & TRPO
+
+- They are model free (update their own knowledge base not trying to estimate objective function using trail and error)
+- Use advantage operatpr
+- Continuous action & observation Space
 
 ---
 
@@ -77,6 +86,7 @@
 
     ![loss function in ppo](image/clipping-ppo.png)
     
+    - it is called surrogate objective function as it contains probability ratio betweem current and next policies
     - We use an expectation operator, as we update over batches of trajectory
     - `min(a, b)`, where
         - `a` is ratio of policy * advantage estimate: default objective for normal policy gradient which pushes policy towards actions that yield a high positive advantage fn over the baseline estimate 
@@ -115,8 +125,38 @@
     2. Delayed problems
     3. sample inefficiency
     4. learning rate highly affects training >> TRPO
-        - TRPO adds constraint to our optimization problem to make sure updates are within the trust region
+        - TRPO adds constraint to our optimization problem to make sure updates are within the trust region, and this region varies
+        - Trust region methods are pretty standard way to approach optimization problems.
 
+---
+
+## PPO Hyperparameters
+
+1. `Epochs`
+2. `Mini-batches`
+3. `Horizon`
+
+- The above 3 hyperparameters are experience collecting related
+- PPO has 2 main steps
+  1. Experiences/Transitions are gathered.
+  2. Policy is improved
+- But, there is no free lunch. We have 2 main issues
+    1. How much experience the agent should gather before updating the policy
+        - Agent collects experience horizon limits 
+            -  `Horizon Range 32 - 5000`. Horizon n-steps, time horizon timesteps per actor batch
+            -  `Mini batch Range 4 - 4096`
+            -  `Epoch Range 3 - 30`
+    2. How to actually update old policy to a new policy
+        - PPO 
+            - (KL) penalty version
+                - `KL target range 0.003 to 0.03`
+                - `KL init range 0.3 to 1.0` 
+            - Clipping version, `ε ranges 0.1, 0.2, 0.3`
+            - Discounting factor `γ ranges 0.8 to 0.9997`, most common 0.99
+                - must balance with horizon
+            - GAE parameter `λ ranges 0.9 - 1.0`
+4. `Epochs Number`
+5. `Optimizer Learning Rate ranges from 0.003 to 5exa(-6)`
 
 
 
